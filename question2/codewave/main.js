@@ -34,8 +34,8 @@ const isNextBtnEnable = () => {
 };
 
 const setQuestionList = () => {
-  if (isPrevBtnEnable()) prevBtn.disabled = false;
-  else if (isNextBtnEnable()) nextBtn.disabled = false;
+  if (!isPrevBtnEnable()) prevBtn.disabled = true;
+  else if (!isNextBtnEnable()) nextBtn.disabled = true;
 
   response.stepInfo[stepNumber - 1].questions.forEach((question) => {
     const li = document.createElement("li");
@@ -44,20 +44,33 @@ const setQuestionList = () => {
   });
 };
 
+const removeChildNodes = () => {
+  questionList.replaceChildren();
+};
+
+const buttonEventHandler = (type) => {
+  if (type === "prev") {
+    if (!isPrevBtnEnable()) return;
+    stepNumber -= 1;
+    // if (isNextBtnEnable()) nextBtn.disabled = false;
+  } else {
+    if (!isNextBtnEnable()) return;
+    stepNumber += 1;
+    // if (isPrevBtnEnable()) prevBtn.disabled = false;
+  }
+  removeChildNodes();
+  setQuestionList();
+  if (type === "prev") {
+    // stepNumber -= 1;
+    if (isNextBtnEnable()) nextBtn.disabled = false;
+  } else {
+    // stepNumber += 1;
+    if (isPrevBtnEnable()) prevBtn.disabled = false;
+  }
+};
+
 setQuestionList();
 
-prevBtn.addEventListener("click", function (event) {
-  stepNumber -= 1;
-  // TODO:
-  //   const newUl = document.createElement("ul");
-  //   questionList.parentNode.replaceChild(newUl, questionList);
-  setQuestionList();
-  //   if (isPrevBtnEnable()) prevBtn.disabled = true;
-});
+prevBtn.addEventListener("click", () => buttonEventHandler("prev"));
 
-nextBtn.addEventListener("click", function (event) {
-  stepNumber += 1;
-  // TODO:
-  setQuestionList();
-  //   if (isNextBtnEnable()) nextBtn.disabled = true;
-});
+nextBtn.addEventListener("click", () => buttonEventHandler("next"));
