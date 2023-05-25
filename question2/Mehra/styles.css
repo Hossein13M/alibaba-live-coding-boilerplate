@@ -1,0 +1,35 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+#app{
+    width: 400px;
+    height: 400px ;
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    background-color: #fdb713;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
+    border: 3px solid rgb(159, 161, 161);
+    border-radius: 10px;
+    margin: 0 auto;
+    margin-top: 20%;
+}
+
+#showStep{
+    margin-bottom: 30%;
+}
+#previousBtn,#nextBtn{
+    padding:  5px 20px;
+    border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid rgb(159, 161, 161);
+    margin-top: 20%;
+    cursor: pointer;
+}
+
+
