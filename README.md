@@ -8,3 +8,7 @@
 - #### You need to create a branch with the name of your team (e.g. git branch dastan)
 - #### You find two directories responsible for each question, you need to create a directory with the following pattern: `${teamName}-teamMember1-teamMemeber2` (e.g. Dastan-Kurt-Chester).
 - #### After you have finished resolving your challenges, please do create a pull requisite to the master branch.
+
+
+![alt text](./question1.png)
+![alt text](./question2.png)
