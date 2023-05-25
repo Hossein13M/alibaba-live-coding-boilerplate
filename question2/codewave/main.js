@@ -33,6 +33,21 @@ const isNextBtnEnable = () => {
   return stepNumber === response.stepCount ? false : true;
 };
 
+const getfromLocalStorage = () => {
+  const localstorageData = localStorage.getItem("stepInfo");
+  if (localstorageData) {
+    parsedDate = JSON.parse(localstorageData);
+    stepNumber = parsedDate.stepNumber;
+  }
+};
+
+const setStepToLocalStorage = () => {
+  localStorage.setItem(
+    "stepInfo",
+    JSON.stringify(response.stepInfo[stepNumber - 1])
+  );
+};
+
 const setQuestionList = () => {
   if (!isPrevBtnEnable()) prevBtn.disabled = true;
   else if (!isNextBtnEnable()) nextBtn.disabled = true;
@@ -42,6 +57,7 @@ const setQuestionList = () => {
     li.innerHTML = question;
     questionList.appendChild(li);
   });
+  setStepToLocalStorage();
 };
 
 const removeChildNodes = () => {
@@ -69,6 +85,7 @@ const buttonEventHandler = (type) => {
   }
 };
 
+getfromLocalStorage();
 setQuestionList();
 
 prevBtn.addEventListener("click", () => buttonEventHandler("prev"));
