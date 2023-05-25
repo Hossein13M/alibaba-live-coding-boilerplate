@@ -20,15 +20,34 @@ const response = {
     ]
 }
 
-var currentStep = 1;
+
 
 const prevBtn = document.querySelector('.prev');
 const nextBtn = document.querySelector('.next')
 const ul = document.querySelector('ul')
-console.log(ul)
+console.log(localStorage.getItem('step'));
+if (!localStorage.getItem('step')){
+    localStorage.setItem('step', 1)
+}
+
+function getCurrentStep(){
+    return localStorage.getItem('step');
+}
+
+function setCurrentStep(stepNum){
+    localStorage.setItem('step', stepNum);
+}
+function updateCurretnStep(amount){
+    let currentStep = localStorage.getItem('step');
+    localStorage.setItem('step', Number(currentStep) + amount)
+}
+
+function getQuestions(){
+    return response.stepInfo[getCurrentStep() -1].questions;
+}
+
 function setQuestion(){
-    questions = response.stepInfo[currentStep -1].questions;
-    console.log(questions);
+    let questions = getQuestions();
     for(let question of questions){
         const li = document.createElement('li');
         li.innerHTML = question;
@@ -43,10 +62,10 @@ function initialQuestions(){
 }
 
 function updateBtnstatus(){
-    if (currentStep == 1){
+    if (getCurrentStep() == 1){
         prevBtn.classList.add('disable')
         nextBtn.classList.remove('disable')
-    }else if (currentStep == response.stepCount){
+    }else if (getCurrentStep() == response.stepCount){
         prevBtn.classList.remove('disable')
         nextBtn.classList.add('disable')
     }else{
@@ -56,13 +75,19 @@ function updateBtnstatus(){
 }
 
 function updateNextStep(){
-    currentStep++
+    if (getCurrentStep() == response.stepCount){
+        return;
+    }
+    updateCurretnStep(1)
     ul.innerText=""
     setQuestion()
     updateBtnstatus()
 }
 function updatePrevStep(){
-    currentStep--
+    if (getCurrentStep() == 1){
+        return;
+    }
+    updateCurretnStep(-1)
     ul.innerText=""
     setQuestion()
     updateBtnstatus()

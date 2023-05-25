@@ -8,21 +8,29 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Alibaba Live Coding Challenges</title>
+    <link rel="stylesheet" href="output.css" />
   </head>
-  <style>
-    .disable {
-      display: none;
-    }
-  </style>
+
   <body>
     <div
       id="app"
-      style="border: solid 1px black; border-radius: 10px; padding: 10px"
+      class="min-h-[100vh] bg-[#FCFDFC] gap-6 flex flex-col items-center justify-center"
     >
-      <section>
-        <ul></ul>
-        <button class="prev">prev</button>
-        <button class="next">next</button>
+      <h1 class="text-pink-500 text-[48px]">RAXIOUS</h1>
+      <section class="w-[400px] bg-[#FCFDFC] shadow-lg rounded-lg p-4 border">
+        <ul class="flex flex-col items-center my-4 text-xl"></ul>
+        <div class="flex justify-between">
+          <div>
+            <button class="prev bg-[#878A88] text-white p-3 py-2 rounded-md">
+              prev
+            </button>
+          </div>
+          <div>
+            <button class="next bg-[#E422A4] text-white p-3 py-2 rounded-md">
+              next
+            </button>
+          </div>
+        </div>
       </section>
     </div>
   </body>
