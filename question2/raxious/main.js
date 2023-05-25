@@ -48,12 +48,14 @@ function getQuestions(){
 
 function setQuestion(){
     let questions = getQuestions();
+    let li;
     for(let question of questions){
-        const li = document.createElement('li');
+        li = document.createElement('li');
         li.innerHTML = question;
+        li.classList.add('border-b-2')
         ul.appendChild(li);
     }
-    
+    li.classList.remove('border-b-2')
 }
 
 function initialQuestions(){
