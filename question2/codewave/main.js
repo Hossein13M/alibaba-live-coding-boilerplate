@@ -25,6 +25,23 @@ const prevBtn = document.querySelector(".prev");
 const nextBtn = document.querySelector(".next");
 let stepNumber = 1;
 
+//#region url
+
+let baseUrl = "http://localhost:5500/question2/codewave/index.html";
+
+const setUrl = () => {
+  window.location.href = `${baseUrl}?step=${stepNumber}`;
+}
+
+const getFromUrl = () => {
+  let currentURL = window.location.href;
+  let params = new URLSearchParams(new URL(currentURL).search);
+  let step = params.get("step");
+  stepNumber = step ? Number(step) : Number(stepNumber);
+}
+
+//#endregion url
+
 const isPrevBtnEnable = () => {
   return stepNumber === 1 ? false : true;
 };
@@ -33,20 +50,25 @@ const isNextBtnEnable = () => {
   return stepNumber === response.stepCount ? false : true;
 };
 
-const getfromLocalStorage = () => {
-  const localstorageData = localStorage.getItem("stepInfo");
-  if (localstorageData) {
-    parsedDate = JSON.parse(localstorageData);
-    stepNumber = parsedDate.stepNumber;
-  }
-};
+// #region local storage 
+// TODO: if you want use local storage option should to comment url setter codes and comment out these functions
 
-const setStepToLocalStorage = () => {
-  localStorage.setItem(
-    "stepInfo",
-    JSON.stringify(response.stepInfo[stepNumber - 1])
-  );
-};
+// const getfromLocalStorage = () => {
+//   const localstorageData = localStorage.getItem("stepInfo");
+//   if (localstorageData) {
+//     parsedDate = JSON.parse(localstorageData);
+//     stepNumber = parsedDate.stepNumber;
+//   }
+// };
+
+// const setStepToLocalStorage = () => {
+//   localStorage.setItem(
+//     "stepInfo",
+//     JSON.stringify(response.stepInfo[stepNumber - 1])
+//   );
+// };
+
+// #endrgion local storage 
 
 const setQuestionList = () => {
   if (!isPrevBtnEnable()) prevBtn.disabled = true;
@@ -57,7 +79,7 @@ const setQuestionList = () => {
     li.innerHTML = question;
     questionList.appendChild(li);
   });
-  setStepToLocalStorage();
+  // setStepToLocalStorage();
 };
 
 const removeChildNodes = () => {
@@ -74,6 +96,7 @@ const buttonEventHandler = (type) => {
     stepNumber += 1;
     // if (isPrevBtnEnable()) prevBtn.disabled = false;
   }
+  setUrl()
   removeChildNodes();
   setQuestionList();
   if (type === "prev") {
@@ -85,7 +108,8 @@ const buttonEventHandler = (type) => {
   }
 };
 
-getfromLocalStorage();
+// getfromLocalStorage();
+getFromUrl();
 setQuestionList();
 
 prevBtn.addEventListener("click", () => buttonEventHandler("prev"));
