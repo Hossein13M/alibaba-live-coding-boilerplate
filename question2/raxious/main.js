@@ -30,16 +30,30 @@ if (!localStorage.getItem('step')){
     localStorage.setItem('step', 1)
 }
 
+const params = new URLSearchParams(window.location.search);
 function getCurrentStep(){
-    return localStorage.getItem('step');
+    if (params.get('step')) {
+        return params.get('step')
+    } else {
+        setCurrentStep(1)
+        return 1;
+    }
+    // local storage implementation
+    // return localStorage.getItem('step');
 }
 
 function setCurrentStep(stepNum){
-    localStorage.setItem('step', stepNum);
+    // local storage implementation
+    // localStorage.setItem('step', stepNum);
+    params.set('step', stepNum);
+    window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
 }
 function updateCurretnStep(amount){
-    let currentStep = localStorage.getItem('step');
-    localStorage.setItem('step', Number(currentStep) + amount)
+    // local storage implementation
+    // let currentStep = localStorage.getItem('step');
+    // localStorage.setItem('step', Number(currentStep) + amount)
+    params.set('step', Number(getCurrentStep()) + amount);
+    window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
 }
 
 function getQuestions(){
@@ -55,10 +69,10 @@ function setQuestion(){
         li.classList.add('border-b-2')
         ul.appendChild(li);
     }
-    li.classList.remove('border-b-2')
-}
+    li.classList.remove('border-b-2');
+  }
 
-function initialQuestions(){
+function initialQuestions(){  
     setQuestion()
     updateBtnstatus()
 }
