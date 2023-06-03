@@ -29,17 +29,28 @@ console.log(localStorage.getItem('step'));
 if (!localStorage.getItem('step')){
     localStorage.setItem('step', 1)
 }
+const params = new URLSearchParams(window.location.search);
 
 function getCurrentStep(){
-    return localStorage.getItem('step');
+    // return localStorage.getItem('step');
+    if (params.get('step')) {
+        return params.get('step')
+    } else {
+        setCurrentStep(1)
+        return 1;
+    }
 }
 
 function setCurrentStep(stepNum){
-    localStorage.setItem('step', stepNum);
+    // localStorage.setItem('step', stepNum);
+    params.set('step', stepNum);
+    window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
 }
 function updateCurretnStep(amount){
-    let currentStep = localStorage.getItem('step');
-    localStorage.setItem('step', Number(currentStep) + amount)
+    // let currentStep = localStorage.getItem('step');
+    // localStorage.setItem('step', Number(currentStep) + amount)
+    params.set('step', Number(getCurrentStep()) + amount);
+    window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
 }
 
 function getQuestions(){
@@ -57,15 +68,12 @@ function setQuestion(){
         li.innerHTML = question;
         li.classList.add('border-b-2')
         ul.appendChild(li);
-        ret.push(encodeURIComponent(question));
     }
     li.classList.remove('border-b-2');
   
-    // Save query parameters in URL
-    const params = new URLSearchParams(window.location.search);
-    params.set('questions', ret.join('&'));
-    window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+
   }
+  
 
 function initialQuestions(){
     setQuestion()
