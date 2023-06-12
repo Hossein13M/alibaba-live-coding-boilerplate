@@ -1,17 +1,14 @@
-const isTypeNumber = (input) => {
+const isTargetNumber = (input) => {
   return typeof input === "number";
 };
 
 const isArrayValid = (nums) => {
-  for (const num of nums) {
-    if (isTypeNumber(num) === false) return false;
-  }
-  return true;
+  return nums.every((currentNum) => isTargetNumber(currentNum));
 };
 
 const getPairKeys = (nums, target) => {
   if (!isArrayValid(nums)) return "array is not valid!";
-  if (!isTypeNumber(target)) return "target is not valid!";
+  if (!isTargetNumber(target)) return "target is not valid!";
 
   const result = [];
   nums.forEach((num, index) => {

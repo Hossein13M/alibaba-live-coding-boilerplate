@@ -27,30 +27,35 @@ let stepNumber = 1;
 
 //#region url
 
-let baseUrl = "http://localhost:5500/question2/codewave/index.html";
+let baseUrl = "";
+
+const getBaseUrl = () => {
+  const currentURL = window.location.href;
+  const pathArray = currentURL.split("/");
+  baseUrl =
+    pathArray[0] +
+    "//" +
+    pathArray.slice(2, 5).join("/") +
+    "/" +
+    pathArray[5].split("?")[0];
+};
+
+getBaseUrl();
 
 const setUrl = () => {
   window.location.href = `${baseUrl}?step=${stepNumber}`;
-}
+};
 
 const getFromUrl = () => {
   let currentURL = window.location.href;
   let params = new URLSearchParams(new URL(currentURL).search);
   let step = params.get("step");
   stepNumber = step ? Number(step) : Number(stepNumber);
-}
+};
 
 //#endregion url
 
-const isPrevBtnEnable = () => {
-  return stepNumber === 1 ? false : true;
-};
-
-const isNextBtnEnable = () => {
-  return stepNumber === response.stepCount ? false : true;
-};
-
-// #region local storage 
+// #region local storage
 // TODO: if you want use local storage option should to comment url setter codes and comment out these functions
 
 // const getfromLocalStorage = () => {
@@ -68,49 +73,64 @@ const isNextBtnEnable = () => {
 //   );
 // };
 
-// #endrgion local storage 
+// #endrgion local storage
 
+const isPrevBtnEnable = () => {
+  return stepNumber !== 1;
+};
+
+const isNextBtnEnable = () => {
+  return stepNumber !== response.stepCount;
+};
+
+isButtonsEnable = () => {
+  prevBtn.disabled = !isPrevBtnEnable();
+  nextBtn.disabled = !isNextBtnEnable();
+};
 const setQuestionList = () => {
-  if (!isPrevBtnEnable()) prevBtn.disabled = true;
-  else if (!isNextBtnEnable()) nextBtn.disabled = true;
-
+  isButtonsEnable();
   response.stepInfo[stepNumber - 1].questions.forEach((question) => {
     const li = document.createElement("li");
     li.innerHTML = question;
     questionList.appendChild(li);
   });
-  // setStepToLocalStorage();
 };
 
 const removeChildNodes = () => {
   questionList.replaceChildren();
 };
 
-const buttonEventHandler = (type) => {
-  if (type === "prev") {
-    if (!isPrevBtnEnable()) return;
+const prevButtonHandler = () => {
+  if (isPrevBtnEnable()) {
     stepNumber -= 1;
-    // if (isNextBtnEnable()) nextBtn.disabled = false;
-  } else {
-    if (!isNextBtnEnable()) return;
-    stepNumber += 1;
-    // if (isPrevBtnEnable()) prevBtn.disabled = false;
-  }
-  setUrl()
-  removeChildNodes();
-  setQuestionList();
-  if (type === "prev") {
-    // stepNumber -= 1;
-    if (isNextBtnEnable()) nextBtn.disabled = false;
-  } else {
-    // stepNumber += 1;
-    if (isPrevBtnEnable()) prevBtn.disabled = false;
   }
 };
 
-// getfromLocalStorage();
-getFromUrl();
-setQuestionList();
+const nextButtonHandler = () => {
+  if (isNextBtnEnable()) {
+    stepNumber += 1;
+  }
+};
+
+const createDom = () => {
+  getFromUrl();
+  // getfromLocalStorage();
+  setQuestionList();
+};
+
+const updateDom = () => {
+  removeChildNodes();
+  isButtonsEnable();
+  setUrl();
+  setQuestionList();
+};
+
+const buttonEventHandler = (type) => {
+  type === "prev" ? prevButtonHandler() : nextButtonHandler();
+  updateDom();
+};
+
+createDom();
 
 prevBtn.addEventListener("click", () => buttonEventHandler("prev"));
 

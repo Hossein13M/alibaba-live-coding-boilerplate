@@ -4,6 +4,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 #app {
     display: flex;
@@ -16,26 +18,16 @@ body {
 .container {
     display: flex;
     align-items: center;
-    background-color: bisque;
+    background-color: #ffe4c4;
     width: 100%;
     margin: 0 auto;
     min-height: 50%;
     border-radius: 5px;
 }
-.prev {
-    z-index: 10;
-    margin-right: -10px;
-    background: none;
-    color: inherit;
-    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-}
+.prev,
 .next {
     z-index: 10;
-    margin-left: -10px;
+
     background: none;
     color: inherit;
     border: none;
@@ -44,9 +36,17 @@ body {
     cursor: pointer;
     outline: inherit;
 }
-.arrow-left {
-    font-size: 30px;
+.prev {
+    margin-right: -10px;
 }
+.next {
+    margin-left: -10px;
+}
+.prev:disabled,
+.next:disabled {
+    color: #808080;
+}
+.arrow-left,
 .arrow-right {
     font-size: 30px;
 }
